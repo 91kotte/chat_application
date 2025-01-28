@@ -22,7 +22,7 @@ Follow the steps below to set up and run the project locally:
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/91kotte/django_chatApplication.git
-cd chat_application
+cd django_chatApplication
 ```
 
 ### 2. Create a virtual environment
