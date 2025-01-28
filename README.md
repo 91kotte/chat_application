@@ -21,7 +21,7 @@ Follow the steps below to set up and run the project locally:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/91kotte/chat_application.git
+git clone https://github.com/91kotte/django_chatApplication.git
 cd chat_application
 ```
 
