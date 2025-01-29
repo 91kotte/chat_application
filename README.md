@@ -75,12 +75,12 @@ python manage.py runserver
 Now, you can visit your chat application at `http://127.0.0.1:8000` in your web browser.
 
 ## Usage
-
+- Upon opening the URL, you will be directed to the login page. If you already have an account, log in; otherwise, register a new account.
 - After logging in, you'll see a list of all registered users on the left panel under the **"Chats"** section.
 - To start a conversation, simply click on any user from the **"Chats"** list.
-- Clicking on a user's name will open the corresponding chat room beside the left panel, where you can interact with that user.
+- Clicking on a user's name will open the corresponding chatroom beside the left panel, where you can interact with that user.
 - Send and receive messages in real-time.
-- If desired, you can collapse the chat list by clicking on the arrow icon next to the user's name in the chat room, located in the main content area.
+- If desired, you can collapse the chat list by clicking on the arrow icon before the user's name in the chat room on top, located in the main content area.
 - To log out, click the **"Logout"** option located in the top right corner of the navbar.
 
 
