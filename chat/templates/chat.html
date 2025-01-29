@@ -250,7 +250,7 @@
                 <span>{{ message.content }}</span>
               </div>
               {% endfor %} {% else %}
-              <p class="no-messages">No Messages.</p>
+              <p class="no-messages text-center">Hello Mr/Ms. {{room_name}},<br> Welcome to the Chat Application. Please select the user to start the conversation.</p>
               {% endif %}
             </div>
 
@@ -298,28 +298,28 @@
       <p>&copy; Python developer 2025. All rights reserved.</p>
     </footer>
     
-
+  
+    <!-- {{ slug }}: A Django template variable that represents the chat room's unique identifier.
+          |json_script:"room_slug": Converts slug into a JSON-safe script tag with id="room_slug".
+          This makes it easier to retrieve in JavaScript using document.getElementById("room_slug").textContent. -->
+        
     {{slug|json_script:"room_slug"}}
 
     <script>
 
+      // Function to Toggles the left sidebar visibility
       function toggleMenu() {
         const leftNav = document.getElementById('leftNav');
         const mainContent = document.getElementById('mainContent');
-        
         const toggleArrow = document.getElementById('toggleArrow');
 
-        // Toggle left sidebar
         if (leftNav.style.transform === 'translateX(-300px)') {
             leftNav.style.transform = 'translateX(0)';
             mainContent.style.marginLeft = '300px';
-            
             toggleArrow.innerHTML = '&#8592;';  // Right arrow (open state)
-            
         } else {
             leftNav.style.transform = 'translateX(-300px)';
             mainContent.style.marginLeft = '0';
-            
             toggleArrow.innerHTML = '&#8594;';  // Left arrow (closed state)
         }
       }
@@ -335,13 +335,22 @@
       // Scroll to bottom when the page is loaded
       scrollToBottom();
 
+      // Fetching Room Name from json_script
       const roomName = JSON.parse(
         document.getElementById("room_slug").textContent
       );
-      const chatSocket = new WebSocket(
+
+      // WebSocket Initialization
+      {% comment %} const chatSocket = new WebSocket(
         "ws://" + window.location.host + "/ws/chat/{{ room_name }}/"
+      ); {% endcomment %}
+      const chatSocket = new WebSocket(
+        (window.location.protocol === "https:" ? "wss://" : "ws://") + 
+         window.location.host + 
+         "/ws/chat/{{ room_name }}/"
       );
 
+      // WebSocket Connection Event Handlers
       chatSocket.onopen = function (e) {
         console.log("The connection was set up successfully!");
       };
@@ -349,6 +358,7 @@
         console.log("Something unexpected happened!");
       };
 
+      // Handling Enter Key for Message Input
       document.querySelector("#my_input").focus();
       document.querySelector("#my_input").onkeyup = function (e) {
         if (e.keyCode == 13) {
@@ -357,6 +367,7 @@
         }
       };
 
+      // Sending a Message via WebSocket
       document.querySelector("#submit_button").onclick = function (e) {
         var messageInput = document.querySelector("#my_input").value;
 
@@ -374,7 +385,7 @@
         }
       };
 
-      // Update the onmessage function to update the chat list
+      // Receiving Messages and Updating the UI using onmessage function to update the chat list
       chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
 
@@ -394,6 +405,7 @@
               : "receiver");
           div.innerHTML = `<div><span>${data.message}</span></div>`;
           chatbox.appendChild(div);
+
           // Scroll to the bottom of the chatbox
           scrollToBottom();
 
@@ -407,7 +419,7 @@
                 ? "You: " + data.message
                 : data.message;
 
-            // update tyime4stamp in format of UTC time 12:00, 13:00 etc
+            //Updating Timestamp and Sorting Chat List  (timestamp in format of UTC time 12:00, 13:00 etc)
             const timestamp = document.querySelector(
               ".list-group-item.active small"
             );
@@ -423,6 +435,7 @@
               return aTime < bTime ? 1 : -1;
             });
 
+            // Reorders the sidebar chat list dynamically.
             const contacts = document.querySelector(".contacts");
             contacts.innerHTML = "";
             chatsSorted.forEach((chat) => {

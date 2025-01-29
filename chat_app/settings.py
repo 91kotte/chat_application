@@ -83,8 +83,9 @@ TEMPLATES = [
         },
     },
 ]
-ASGI_APPLICATION = 'chat_app.asgi.application'
+ASGI_APPLICATION = 'chat_app.asgi.application' #specifies the ASGI application to use, enabling Django Channels for WebSocket support.
 
+# for handling WebSockets and background tasks.
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',
